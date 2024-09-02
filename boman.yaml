@@ -1,8 +1,13 @@
 Auth:
-  project_token: 574ef51f-2ca4-4cfb-88a7-794fe2c5473d
+  project_token: 371eac76-7586-4f86-8b13-e3319c9c7064
   customer_token: 1d747e85-40c3-4e2c-98ff-6af0ed1a721f
 SAST:
   language: semgrep
 SCA:
   language: ruby
 Secret_Scan: true
+container_scan:
+  type: config
+  target: ''
+IAC: true
+
