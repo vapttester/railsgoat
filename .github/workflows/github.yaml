@@ -27,8 +27,8 @@ jobs:
         run: sudo pip install boman-cli
       - name: Run scan
         env:
-          APP: ${{ secrets.APP_TOKEN }}
-          USER: ${{ secrets.CUSTOMER_TOKEN }}
+          APP: ${{ secrets.APP }}
+          USER: ${{ secrets.USER }}
         # run: sudo boman-cli-uat -a run -u https://qa.boman.ai -at "$APP" -ct "$USER"
         run: sudo boman-cli -a run -at "$APP" -ct "$USER"
         # run: sudo boman-cli -a run
