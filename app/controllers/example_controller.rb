@@ -1,61 +1,63 @@
 # frozen_string_literal: true
-class ApplicationController < ActionController::Base
-  before_action :authenticated, :has_info, :create_analytic, :mailer_options
-  helper_method :current_user, :is_admin?, :sanitize_font
+class PasswordResetsController < ApplicationController
+  skip_before_action :authenticated
 
-  # Our security guy keep talking about sea-surfing, cool story bro.
-  # Prevent CSRF attacks by raising an exception.
-  # For APIs, you may want to use :null_session instead.
-  #protect_from_forgery with: :exception
+  def reset_password
+    user = Marshal.load(Base64.decode64(params[:user])) unless params[:user].nil?
+
+    if user && params[:password] && params[:confirm_password] && params[:password] == params[:confirm_password]
+      user.password = params[:password]
+      user.save!
+      flash[:success] = "Your password has been reset please login"
+      redirect_to :login
+    else
+      flash[:error] = "Error resetting your password. Please try again."
+      redirect_to :login
+    end
+  end
+
+  def confirm_token
+    if !params[:token].nil? && is_valid?(params[:token])
+      flash[:success] = "Password reset token confirmed! Please create a new password."
+      render "password_resets/reset_password"
+    else
+      flash[:error] = "Invalid password reset token. Please try again."
+      redirect_to :login
+    end
+  end
+
+  def send_forgot_password
+    @user = User.find_by_email(params[:email]) unless params[:email].nil?
+
+    if @user && password_reset_mailer(@user)
+      flash[:success] = "Password reset email sent to #{params[:email]}"
+      redirect_to :login
+    else
+      flash[:error] = "There was an issue sending password reset email to #{params[:email]}".html_safe unless params[:email].nil?
+    end
+  end
 
   private
 
-  def mailer_options
-    ActionMailer::Base.default_url_options[:protocol] = request.protocol
-    ActionMailer::Base.default_url_options[:host]     = request.host_with_port
+  def password_reset_mailer(user)
+    token = generate_token(user.id, user.email)
+    UserMailer.forgot_password(user.email, token).deliver
   end
 
-  def current_user
-    @current_user ||= (
-      User.find_by(auth_token: cookies[:auth_token].to_s) ||
-      User.find_by(id: session[:user_id].to_s)
-    )
+  def generate_token(id, email)
+    hash = Digest::MD5.hexdigest(email)
+    "#{id}-#{hash}"
   end
 
-  def authenticated
-     path = request.fullpath.present? ? root_url(url: request.fullpath) : root_url
-     redirect_to path and reset_session if !current_user
-  end
+  def is_valid?(token)
+    if token =~ /(?<user>\d+)-(?<email_hash>[A-Z0-9]{32})/i
 
-  def is_admin?
-    current_user.admin if current_user
-  end
+      # Fetch the user by their id, and hash their email address
+      @user = User.find_by(id: $~[:user])
+      email = Digest::MD5.hexdigest(@user.email)
 
-  def administrative
-    if !is_admin?
-     redirect_to root_url
-   end
-  end
-
-  def has_info
-    redirect = false
-    if current_user
-      begin
-      if !(current_user.retirement || current_user.paid_time_off || current_user.paid_time_off.schedule || current_user.work_info || current_user.performance)
-        redirect = true
-      end
-      rescue
-         redirect = true
-      end
+      # Compare and validate our hashes
+      return true if email == $~[:email_hash]
     end
-    redirect_to home_dashboard_index_path if redirect
-  end
-
-  def create_analytic
-    Analytics.create({ ip_address: request.remote_ip, referrer: request.referrer, user_agent: request.user_agent})
-  end
-
-  def sanitize_font(css)
-    css
   end
 end
