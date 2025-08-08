@@ -31,4 +31,4 @@ jobs:
           USER: ${{ secrets.USER }}
         # run: sudo boman-cli-uat -a run -u https://qa.boman.ai -at "$APP" -ct "$USER"
         # run: sudo boman-cli -a run -at "$APP" -ct "$USER"
-        run: sudo boman-cli -a run -u https://qa.boman.ai
+        run: sudo boman-cli -a run
