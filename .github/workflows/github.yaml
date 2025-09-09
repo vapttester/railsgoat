@@ -15,7 +15,6 @@ on:
 jobs:
   Boman-scan:
     # The type of runner that the job will run on
-    environment: prod
     runs-on: ubuntu-latest
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -23,12 +22,12 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Install packages
-        # run: sudo pip install --extra-index-url https://test.pypi.org/simple/ boman-cli-uat
-        run: sudo pip install boman-cli
+        run: sudo pip install --extra-index-url https://test.pypi.org/simple/ boman-cli-uat
+        # run: sudo pip install boman-cli
       - name: Run scan
         env:
-          APP: ${{ secrets.APP }}
-          USER: ${{ secrets.USER }}
+          APP: ${{ secrets.APP_TOKEN }}
+          USER: ${{ secrets.CUSTOMER_TOKEN }}
         # run: sudo boman-cli-uat -a run -u https://qa.boman.ai -at "$APP" -ct "$USER"
-        # run: sudo boman-cli -a run -at "$APP" -ct "$USER"
-        run: sudo boman-cli -a run
+        run: sudo boman-cli -a run -at "$APP" -ct "$USER"
+        # run: sudo boman-cli -a run
