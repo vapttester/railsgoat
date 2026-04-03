@@ -7,6 +7,7 @@ pipeline{
                 sh 'whoami'
                 sh 'ls -l /usr/bin/docker || echo "Docker binary not here"'
             }
+       }
       stage('Bomanai'){
         steps{
            sh 'pip install --no-cache-dir --upgrade boman-cli'
