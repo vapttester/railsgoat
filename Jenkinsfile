@@ -6,6 +6,7 @@ pipeline{
                 sh 'hostname'
                 sh 'whoami'
                 sh 'ls -l /usr/bin/docker || echo "Docker binary not here"'
+                sh 'ls -la'
             }
        }
       stage('Bomanai'){
