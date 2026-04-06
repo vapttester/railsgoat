@@ -17,14 +17,14 @@ pipeline{
         . /opt/boman-env/bin/activate
         
         # 1. Clear out the bridge folder
-        rm -rf /mnt/c/jenkins_temp/scan
-        mkdir -p /mnt/c/jenkins_temp/scan
+        rm -rf /c/jenkins_temp/scan
+        mkdir -p /c/jenkins_temp/scan
         
         # 2. Copy your code from Jenkins to the Windows Bridge
-        cp -a "$WORKSPACE"/. /mnt/c/jenkins_temp/scan/
+        cp -a "$WORKSPACE"/. /c/jenkins_temp/scan/
         
         # 3. Move into the bridge folder and run the scan
-        cd /mnt/c/jenkins_temp/scan/
+        cd /c/jenkins_temp/scan/
         git config --global --add safe.directory '*'
         pip install "setuptools<70.0.0"
         pip install --no-cache-dir --upgrade boman-cli
