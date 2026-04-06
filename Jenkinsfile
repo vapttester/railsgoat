@@ -21,7 +21,7 @@ pipeline{
         mkdir -p /c/jenkins_temp/scan
         
         # 2. Copy your code from Jenkins to the Windows Bridge
-        cp -r "$WORKSPACE"/* /c/jenkins_temp/scan/
+        cp -a "$WORKSPACE"/. /c/jenkins_temp/scan/
         
         # 3. Move into the bridge folder and run the scan
         cd /c/jenkins_temp/scan/
