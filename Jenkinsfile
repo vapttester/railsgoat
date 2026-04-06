@@ -25,7 +25,7 @@ pipeline{
         
         # 3. Move into the bridge folder and run the scan
         cd /c/jenkins_temp/scan/
-        boman-cli -a run
+      
         '''
       }
     }
