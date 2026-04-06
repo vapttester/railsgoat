@@ -22,6 +22,7 @@ pipeline{
         
         # 2. Copy your code from Jenkins to the Windows Bridge
         cp -a "$WORKSPACE"/. /c/jenkins_temp/scan/
+        git config --global --add safe.directory '*'
         
         # 3. Move into the bridge folder and run the scan
         cd /c/jenkins_temp/scan/
