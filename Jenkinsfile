@@ -33,7 +33,7 @@ pipeline{
         pip install "setuptools<70.0.0"
         pip install --no-cache-dir --upgrade boman-cli
         which boman-cli
-        boman-cli -a run -at $APP_TOKEN -ct $CUSTOMER_TOKEN
+        boman-cli -a run --cicd jenkins -at $APP_TOKEN -ct $CUSTOMER_TOKEN
       
         '''
       }
