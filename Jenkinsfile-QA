@@ -27,7 +27,7 @@ pipeline{
         cd /c/jenkins_temp/scan/
         git config --global --add safe.directory '*'
         pip install "setuptools<70.0.0"
-        pip install --extra-index-url https://test.pypi.org/simple/ boman-cli-uat
+        pip install --extra-index-url https://test.pypi.org/simple/ --upgrade boman-cli-uat
         which boman-cli
         boman-cli-uat -a run -cicd jenkins -u https://qa.boman.ai -at 3254fa33-4b3d-46c6-a656-511caedbd527 -ct b93b0db3-ed63-4dac-85c4-19d7b99d716e
       
