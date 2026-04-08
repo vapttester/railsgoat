@@ -1,5 +1,9 @@
 pipeline{
   agent any
+  environment {
+        APP_TOKEN = credentials('railsgoat_boman_app_token')
+        CUSTOMER_TOKEN = credentials('boman_customer_token')
+    }
   stages{
        stage('Debug') {
             steps {
@@ -29,7 +33,7 @@ pipeline{
         pip install "setuptools<70.0.0"
         pip install --no-cache-dir --upgrade boman-cli
         which boman-cli
-        boman-cli -a run -cicd jenkins -at 9dbcb2c0-44b0-4387-845f-b10b5d7a5b33 -ct 41bb9111-e57f-43d9-aa15-8c2e751ddb36
+        boman-cli -a run -cicd jenkins -at $APP_TOKEN -ct $CUSTOMER_TOKEN
       
         '''
       }
