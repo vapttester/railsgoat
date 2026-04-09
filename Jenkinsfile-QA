@@ -11,7 +11,7 @@ pipeline{
        }
        stage('trivy test'){
             steps{
-              sh'docker run --rm --user 10042:10042 -v $(pwd):/src aquasec/trivy:latest fs /src/ --cache-dir /tmp/.trivycache'
+              sh'docker run --rm --user 10042:10042 -v $(pwd):/src bomanai/trivy:latest --format cyclonedx --output /src/boman_final_trivy.json --scanners vuln fs /./'
           }
       }
     
