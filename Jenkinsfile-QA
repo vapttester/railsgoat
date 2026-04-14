@@ -30,7 +30,7 @@ pipeline{
         pip uninstall -y boman-cli
         pip install --extra-index-url https://test.pypi.org/simple/ --upgrade boman-cli-uat
         which boman-cli-uat
-        boman-cli-uat -a run -cicd jenkins -u https://qa.boman.ai -at 3254fa33-4b3d-46c6-a656-511caedbd527 -ct b93b0db3-ed63-4dac-85c4-19d7b99d716e -std true
+        boman-cli-uat -a run -cicd jenkins -u https://qa.boman.ai -at 5d3ce546-adb7-4795-af5e-6d65f855558e -ct b93b0db3-ed63-4dac-85c4-19d7b99d716e -std true
         #pip install --upgrade boman-cli
         #boman-cli -a run -cicd jenkins -u https://qa.boman.ai -at 3254fa33-4b3d-46c6-a656-511caedbd527 -ct b93b0db3-ed63-4dac-85c4-19d7b99d716e -std true
         '''
